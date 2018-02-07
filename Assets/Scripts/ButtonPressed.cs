@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 
 public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
@@ -22,10 +21,8 @@ public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         if (!_ispressed)
             return;
-        
-        // DO SOMETHING HERE
-        Debug.Log("Pressed");
-        Translate();
+        if(GameManager.Instance.IsPlayerAlive)
+            Translate();
     }
    
     public void OnPointerDown(PointerEventData eventData)
@@ -39,7 +36,9 @@ public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
     {
         _ispressed = false;
         _isRunning = false;
-        _animator.SetBool("IsRunning", _isRunning);
+        
+        if(GameManager.Instance.IsPlayerAlive)
+            _animator.SetBool("IsRunning", _isRunning);
     }
 
     private void Translate()
