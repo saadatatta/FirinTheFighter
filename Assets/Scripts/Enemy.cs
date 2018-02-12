@@ -7,14 +7,13 @@ public class Enemy : MonoBehaviour,IEnemy
     [SerializeField] protected int health;
 
     private EnemyCombatLevel enemyCombatLevel;
+    private Waypoint _waypoint;
 
     protected Animator Animator;
     protected bool MovingRight = true;
     protected bool IsAttacking;
     protected bool IsWalking = true;
 
-    private Waypoint _waypoint;
-    
     public int Health
     {
         //Health will change as the level progresses.

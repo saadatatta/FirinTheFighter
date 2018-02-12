@@ -1,17 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseStat{
-
-    private int statId;
+[System.Serializable]
+public class BaseStat
+{
+    private System.Guid statId;
     private string statName;
     private int statValue;
+    private StatType statType;
 
-    public BaseStat(int statId,string statName,int statValue)
+    public BaseStat(string statName,StatType statType,int statValue)
     {
-        this.statId = statId;
+        this.statId = System.Guid.NewGuid();
         this.statName = statName;
+        this.statType = statType;
         this.statValue = statValue;
     }
 

@@ -1,13 +1,34 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
-public class HealthStat : MonoBehaviour
+[System.Serializable]
+public class HealthStat
 {
-    List<BaseStat> healthStatsList = new List<BaseStat>();
+    private ushort healthIncrement = HealthStatValues.Level1;
+    private ushort currentLevel = 1;
 
-    public void AddStat(BaseStat stat)
+    public ushort HealthIncrement
     {
-        healthStatsList.Add(stat);
+        get { return healthIncrement; }
     }
+
+    public void UnlockNextLevel()
+    {
+        currentLevel++;
+        PlayerStats.Instance.IncrementHealthLevel();
+        healthIncrement = HealthStatValues.GetHealthStatValues(currentLevel);
+        PlayerStatTexts.Instance.HealthLevelText.text = HealthStatNames.GetHealthLevelName(currentLevel);
+        PlayerStatTexts.Instance.HealthLevelValueText.text = DisplayHealth();
+    }
+    
+
+    /// <summary>
+    /// Display the health in player stat UI panel.
+    /// </summary>
+    /// <returns>Return the current health value in predefined string format.</returns>
+    public string DisplayHealth()
+    {
+        return string.Format("Base Health \n +{0}", healthIncrement);
+    }
+
 }
