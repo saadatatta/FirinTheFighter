@@ -22,8 +22,9 @@ public class HUD : MonoBehaviour
     /// <returns></returns>
     IEnumerator CheckHealth()
     {
-        int heartsRemaining = Mathf.CeilToInt(_player.PlayerHealth / 25f);
+        int heartsRemaining = Mathf.CeilToInt(((_player.PlayerHealth / (float)_player.MaxHealth)*100f)/25f);
         
+        Debug.Log(heartsRemaining);
         for (int i = heartsRemaining; i < _hearts.Length; i++)
         {
             _hearts[i].gameObject.SetActive(false);

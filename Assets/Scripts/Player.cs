@@ -11,12 +11,17 @@ public class Player : MonoBehaviour
     private Animator _animator;
     private Rigidbody2D _rigidbody2D;
     private bool _canJump = true;
-    private int _playerHealth = 100;
+    private int maxHealth = 100;
+    private int currentPlayerHealth = 100;
 
+    public int MaxHealth
+    {
+        get { return maxHealth; }
+    }
     public int PlayerHealth
     {
-        get { return _playerHealth; }
-        set { _playerHealth = value; }
+        get { return currentPlayerHealth; }
+        set { currentPlayerHealth = value; }
     }
 
     void Awake()
@@ -31,8 +36,18 @@ public class Player : MonoBehaviour
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _jumpButton.onClick.AddListener(OnJumpButtonPressed);
         _attackButton.onClick.AddListener(OnAttackButtonPressed);
+        maxHealth += HealthStatValues.GetHealthStatValues(PlayerStats.Instance.CurrentHealthLevel);
+        currentPlayerHealth = maxHealth;
+        PlayerStats.Instance.OnHealthUpgrade += ChangePlayerHealth;
     }
 
+    /// <summary>
+    /// This function is called when player upgrades its health.
+    /// </summary>
+    void ChangePlayerHealth()
+    {
+        maxHealth += HealthStatValues.GetHealthStatValues(PlayerStats.Instance.CurrentHealthLevel);
+    }
     
     void OnJumpButtonPressed()
     {

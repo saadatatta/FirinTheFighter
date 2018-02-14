@@ -1,9 +1,9 @@
 ﻿[System.Serializable]
 public static class HealthStatValues
 {
-    public static ushort Level1 = 5;
-    public static ushort Level2 = 8;
-    public static ushort Level3 = 14;
+    public static ushort Level1 = 0;
+    public static ushort Level2 = 30;
+    public static ushort Level3 = 80;
 
     public static ushort GetHealthStatValues(int level)
     {

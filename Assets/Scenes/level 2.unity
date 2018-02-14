@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraSpeed: 10
-  offset: {x: 2.75, y: 0, z: 0}
+  offset: {x: 2.75, y: 1, z: 0}
 --- !u!1 &129006788
 GameObject:
   m_ObjectHideFlags: 0

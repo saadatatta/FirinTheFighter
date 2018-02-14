@@ -3,6 +3,7 @@
 public class EnemyHealth : MonoBehaviour
 {
     private PlayerStats playerStats;
+    private int damage = 10;
     
     [SerializeField] private Enemy _enemy;
     [SerializeField] private int deathExperience;
@@ -17,7 +18,11 @@ public class EnemyHealth : MonoBehaviour
     {
         if (col.gameObject.tag == "sword")
         {
-            ReceiveDamage(10);
+            int avgDamage = AttackStatValues.GetAttackStatValues(playerStats.CurrentAttackLevel) * damage;
+            int minDamage = Mathf.RoundToInt((avgDamage * 2) / Random.Range(2.1f, 2.9f));
+            int maxDamage = avgDamage * 2 - minDamage;
+            int randomDamage = Random.Range(minDamage, maxDamage);
+            ReceiveDamage(randomDamage);
         }
 
     }

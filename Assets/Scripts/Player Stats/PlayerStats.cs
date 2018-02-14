@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-
+﻿
 public class PlayerStats : Singleton<PlayerStats>
 {
     public System.Action<ExperienceStat> OnEnemyDeath;
+    public System.Action OnHealthUpgrade;
 
     private AttackStat attackStat = new AttackStat();
     private HealthStat healthStat = new HealthStat();
@@ -106,6 +104,10 @@ public class PlayerStats : Singleton<PlayerStats>
     public void IncrementHealthLevel()
     {
         currentHealthLevel++;
+        if (OnHealthUpgrade != null)
+        {
+            OnHealthUpgrade();
+        }
     }
 
 }
