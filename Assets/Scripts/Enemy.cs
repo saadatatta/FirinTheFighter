@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour,IEnemy
 {
-    [SerializeField] private float _speed;
-    [SerializeField] protected int health;
+    [SerializeField] protected float _speed;
 
     private EnemyCombatLevel enemyCombatLevel;
     private Waypoint _waypoint;
@@ -14,13 +13,7 @@ public class Enemy : MonoBehaviour,IEnemy
     protected bool IsAttacking;
     protected bool IsWalking = true;
 
-    public int Health
-    {
-        //Health will change as the level progresses.
-        get { return health * enemyCombatLevel.CombatLevel; }
-        set { health = value; }
-
-    }
+    public bool IsMovingRight { get { return MovingRight; } }
 
     protected virtual void Start()
     {
@@ -48,7 +41,7 @@ public class Enemy : MonoBehaviour,IEnemy
         {
             Vector2 nextWaypoint = _waypoint.MoveTowardsNextWaypoint();
             Animator.SetBool("Walk", IsWalking); // Set walking toward waypoint.
-            while (Vector2.Distance(transform.position, nextWaypoint) > 0)
+            while (Vector2.Distance(transform.position, nextWaypoint) > .25f)
             {
                 while (IsAttacking)
                 {

@@ -6,8 +6,14 @@ using System.Linq;
 [System.Serializable]
 public class ExperienceStat
 {
-    List<BaseStat> experienceStatsList = new List<BaseStat>();
-    private int currentExperienceLevel = 1;
+    List<BaseStat> experienceStatsList;
+    private int currentExperienceLevel;
+
+    public ExperienceStat()
+    {
+        experienceStatsList = new List<BaseStat>();
+        currentExperienceLevel = 1;
+    }
 
     public int ListItemsCount
     {
@@ -43,7 +49,7 @@ public class ExperienceStat
             levelMaxValue = ExperienceStatValues.FindLevelMaxValue(currentExperienceLevel);
             ShowUpgradeButtons();
         }
-
+        PlayerStats.Instance.gameObject.transform.GetComponent<PlayerStatsButton>().ExperienceSliderFillImage.fillAmount = statSum / (float)levelMaxValue * 100;
         return string.Format("{0} / {1}", statSum,levelMaxValue);
 
     }

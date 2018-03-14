@@ -19,16 +19,10 @@ public class Hurdle : MonoBehaviour {
                 if (health <= 0)
                 {
                     GameManager.Instance.IsPlayerAlive = false;
+                    GameManager.Instance.OnPlayerDeath();
                 }
             }
             
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
-
-
 }

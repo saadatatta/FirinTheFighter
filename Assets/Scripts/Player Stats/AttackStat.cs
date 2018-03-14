@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿
 [System.Serializable]
 public class AttackStat
 {
-    private ushort attackDamage = AttackStatValues.Level1;
-    private ushort currentLevel = 1;
+    private ushort attackDamage;
+    private ushort currentLevel;
+
+    public AttackStat()
+    {
+        attackDamage = AttackStatValues.Level1;
+        currentLevel = 1;
+    }
 
     public ushort AttackDamage
     {

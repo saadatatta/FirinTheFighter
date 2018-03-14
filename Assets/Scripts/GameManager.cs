@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -8,6 +10,8 @@ public class GameManager : Singleton<GameManager>
     private int currentLevel = 1;
     private Timer _timer;
     private bool _isPlayerAlive = true;
+
+    private Animator playerAnimator;
 
     public bool IsPlayerAlive
     {
@@ -43,14 +47,48 @@ public class GameManager : Singleton<GameManager>
     void Awake()
     {
         Assert.IsNotNull(_player);
+        playerAnimator = _player.GetComponent<Animator>();
     }
 
-    private void LateUpdate()
+    private void OnLevelWasLoaded()
     {
-        if (!IsPlayerAlive && _player != null)
+        // if game over do nothing
+        if (SceneManager.GetActiveScene().name == MagicStrings.GameOver)
+            return;
+
+        _player.position = GameObject.Find(MagicStrings.LevelStartPosition).transform.position;
+        _player.GetComponent<Animator>().SetBool(MagicStrings.PlayerRunning, false);
+        
+    }
+
+    public void OnPlayerHurt()
+    {
+        playerAnimator.SetTrigger(MagicStrings.PlayerHurt);
+    }
+
+    public void OnPlayerDeath()
+    {
+        if (!_isPlayerAlive)
         {
-            Destroy(_player.gameObject);
+            _player.GetComponent<Rigidbody2D>().simulated = false;
+
+            playerAnimator.SetTrigger(MagicStrings.PlayerDeath);
+
+            Instance.Timer.Add(SinkPlayer, 2f);
+
+
         }
+    }
+
+    void SinkPlayer()
+    {
+        Destroy(_player.gameObject);
+        LoadGameOverScene();
+    }
+
+    void LoadGameOverScene()
+    {
+        SceneManager.LoadScene(MagicStrings.GameOver);
     }
 
 }

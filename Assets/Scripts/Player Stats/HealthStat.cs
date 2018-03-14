@@ -2,8 +2,14 @@
 [System.Serializable]
 public class HealthStat
 {
-    private ushort healthIncrement = HealthStatValues.Level1;
-    private ushort currentLevel = 1;
+    private ushort healthIncrement;
+    private ushort currentLevel;
+
+    public HealthStat()
+    {
+        healthIncrement = HealthStatValues.Level1;
+        currentLevel = 1;
+    }
 
     public ushort HealthIncrement
     {

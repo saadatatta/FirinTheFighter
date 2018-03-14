@@ -18,12 +18,18 @@ public class Projectile : MonoBehaviour
         {
             int health = other.GetComponent<Player>().PlayerHealth -= _damageAmount;
             other.GetComponentInChildren<ParticleSystem>().Play();
+            GameManager.Instance.OnPlayerHurt();
             if (health <= 0)
             {
                 GameManager.Instance.IsPlayerAlive = false;
-                Destroy(other.gameObject);
+                GameManager.Instance.OnPlayerDeath();
             }
             Destroy(gameObject); // Destroy the projectile
         }
+        else if (other.tag == "Hurdle")
+        {
+            Destroy(gameObject);
+        }
+
     }
 }

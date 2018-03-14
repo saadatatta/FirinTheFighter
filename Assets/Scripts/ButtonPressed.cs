@@ -4,20 +4,22 @@ using UnityEngine.EventSystems;
 public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Vector3 _direction;
-    [SerializeField] private float _speed;
+    [SerializeField] private float _speed = 60;
 
     private Transform _player;
     private bool _ispressed;
     private Animator _animator;
     private bool _isRunning;
+    private Rigidbody2D rigidbodyPlayer;
 
     void Start()
     {
         _player = GameManager.Instance.Player;
+        rigidbodyPlayer = _player.GetComponent<Rigidbody2D>();
         _animator = _player.GetComponent<Animator>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!_ispressed)
             return;
@@ -38,14 +40,15 @@ public class ButtonPressed : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
         _isRunning = false;
         
         if(GameManager.Instance.IsPlayerAlive)
-            _animator.SetBool("IsRunning", _isRunning);
+            _animator.SetBool(MagicStrings.PlayerRunning, _isRunning);
     }
 
     private void Translate()
     {
         ChangePlayerFaceDirection();
-        _animator.SetBool("IsRunning", _isRunning);
-        _player.position += _direction*_speed*Time.deltaTime;
+        _animator.SetBool(MagicStrings.PlayerRunning, _isRunning);
+        //_player.position += _direction*_speed*Time.deltaTime;
+        rigidbodyPlayer.AddForce (_direction * _speed);
     }
 
     private void ChangePlayerFaceDirection()

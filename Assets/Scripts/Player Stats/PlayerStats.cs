@@ -67,11 +67,7 @@ public class PlayerStats : Singleton<PlayerStats>
         
         attackStat = playerState.AttackStat;
         healthStat = playerState.HealthStat;
-
-        if (playerState.ExperienceStat.ListItemsCount == 0)
-            experienceStat.AddStat(new BaseStat(ExperienceStatNames.Level1, StatType.ExperienceStat, ExperienceStatValues.Level1));
-        else
-            experienceStat = playerState.ExperienceStat;
+        experienceStat = playerState.ExperienceStat;
 
         ShowPlayerStats();
     }

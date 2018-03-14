@@ -1,12 +1,21 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using UnityEngine;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour,IEnemyHealth
 {
     private PlayerStats playerStats;
     private int damage = 10;
-    
-    [SerializeField] private Enemy _enemy;
-    [SerializeField] private int deathExperience;
+
+    [SerializeField] private int health;
+    [SerializeField] private int deathExperience = 20;
+
+    int IEnemyHealth.Health
+    {
+        get
+        {
+            return health;
+        }
+    }   
 
     private void Awake()
     {
@@ -29,9 +38,9 @@ public class EnemyHealth : MonoBehaviour
 
     void ReceiveDamage(int amount)
     {
-        int health = _enemy.Health -= amount;
+        int value = health -= amount;
 
-        if (health <= 0)
+        if (value <= 0)
         {
             playerStats.OnEnemyDeath += AddStats;
             

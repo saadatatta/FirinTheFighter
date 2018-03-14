@@ -10,6 +10,9 @@ public class PlayerStatsButton : MonoBehaviour {
     [SerializeField] private Button upgradeAttackLvlBtn;
     [SerializeField] private Button upgradeHealthLvlBtn;
 
+    [Header("Slider")]
+    public Image ExperienceSliderFillImage;
+
     public Button UpgradeAttackLvlBtn
     {
         get { return upgradeAttackLvlBtn; }
