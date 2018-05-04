@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour,IEnemyHealth
@@ -31,6 +31,7 @@ public class EnemyHealth : MonoBehaviour,IEnemyHealth
             int minDamage = Mathf.RoundToInt((avgDamage * 2) / Random.Range(2.1f, 2.9f));
             int maxDamage = avgDamage * 2 - minDamage;
             int randomDamage = Random.Range(minDamage, maxDamage);
+            SoundManager.Instance.PlayHurtSound(SoundManager.Instance.EnemyHurtClips,transform.name);
             ReceiveDamage(randomDamage);
         }
 
@@ -49,11 +50,10 @@ public class EnemyHealth : MonoBehaviour,IEnemyHealth
 
     }
 
-    void AddStats(ExperienceStat stat)
+    void AddStats()
     {
         Debug.Log("Here in callback");
-        BaseStat baseStat = new BaseStat("Experience", StatType.ExperienceStat, deathExperience);
-        playerStats.ExperienceStat.AddStat(baseStat);
+        playerStats.ExperienceStat.AddStat(deathExperience);
         playerStats.OnEnemyDeath -= AddStats;
     }
 

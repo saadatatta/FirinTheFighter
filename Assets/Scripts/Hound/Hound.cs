@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 
 public class Hound : MonoBehaviour {
 
@@ -8,6 +9,7 @@ public class Hound : MonoBehaviour {
     private GroundDetecter groundDetecter;
     private PlayerSearcher playerSearcher;
     private bool movingRight = true;
+    private bool isJumping = false;
     private float nextJumpTime = 2f;
     private float currentTime = 0f;
 
@@ -33,7 +35,11 @@ public class Hound : MonoBehaviour {
 
         if (playerSearcher.IsPlayerInRange && currentTime > nextJumpTime)
         {
-            rb.AddForce(new Vector2(transform.localScale.x, 1)*10000,ForceMode2D.Force);
+            //rb.AddForce(new Vector2(transform.localScale.x, 1)*10000,ForceMode2D.Force);
+            Vector2 playerPosition = new Vector2(player.transform.position.x, transform.position.y);
+            isJumping = true;
+            rb.DOJump(playerPosition, 2.5f, 1, 2, false);
+            GameManager.Instance.Timer.Add(() => { isJumping = false; }, 2.5f);
             animator.SetTrigger(MagicStrings.Jump);
             currentTime = 0f;
             
@@ -65,7 +71,9 @@ public class Hound : MonoBehaviour {
         {
             int health = collision.gameObject.GetComponent<Player>().PlayerHealth -= 5;
             collision.gameObject.GetComponentInChildren<ParticleSystem>().Play();
-            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(transform.localScale.x, 1) * 5000, ForceMode2D.Force);
+            collision.gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(transform.localScale.x, 1) * 2000, ForceMode2D.Force);
+            SoundManager.Instance.PlayHurtSound(SoundManager.Instance.PlayerHurtClips);
+
             if (health <= 0)
             {
                 GameManager.Instance.IsPlayerAlive = false;
@@ -76,8 +84,11 @@ public class Hound : MonoBehaviour {
 
     private void TurnAround()
     {
-        transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
-        movingRight = !movingRight;
+        if (!isJumping)
+        {
+            transform.localScale = new Vector3(transform.localScale.x * -1, 1, 1);
+            movingRight = !movingRight;
+        }
     }
 
 }

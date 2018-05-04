@@ -1,7 +1,7 @@
 ﻿
 public class PlayerStats : Singleton<PlayerStats>
 {
-    public System.Action<ExperienceStat> OnEnemyDeath;
+    public System.Action OnEnemyDeath;
     public System.Action OnHealthUpgrade;
 
     private AttackStat attackStat = new AttackStat();
@@ -83,7 +83,7 @@ public class PlayerStats : Singleton<PlayerStats>
     {
         if (OnEnemyDeath != null)
         {
-            OnEnemyDeath(experienceStat);
+            OnEnemyDeath();
         }
     }
 

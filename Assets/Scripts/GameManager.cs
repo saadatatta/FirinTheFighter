@@ -10,8 +10,23 @@ public class GameManager : Singleton<GameManager>
     private int currentLevel = 1;
     private Timer _timer;
     private bool _isPlayerAlive = true;
+    private bool playerDeathAlreadyActivated = false;
+    private Transform currentLevelSpawnPosition; // When player dies
+    private Transform platformFallSpawnPosition; // When player falls from platform
 
     private Animator playerAnimator;
+
+    public Transform CurrentLevelSpawnPosition
+    {
+        get { return currentLevelSpawnPosition; }
+        set { if (value != null) currentLevelSpawnPosition = value; }
+    }
+
+    public Transform PlatformFallSpawnPosition
+    {
+        get { return platformFallSpawnPosition; }
+        set { if (value != null) platformFallSpawnPosition = value; }
+    }
 
     public bool IsPlayerAlive
     {
@@ -50,15 +65,39 @@ public class GameManager : Singleton<GameManager>
         playerAnimator = _player.GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        if (!_isPlayerAlive && !playerDeathAlreadyActivated)
+        {
+            OnPlayerDeath();
+            playerDeathAlreadyActivated = true;
+        }
+    }
+
     private void OnLevelWasLoaded()
     {
         // if game over do nothing
         if (SceneManager.GetActiveScene().name == MagicStrings.GameOver)
             return;
 
-        _player.position = GameObject.Find(MagicStrings.LevelStartPosition).transform.position;
+        Transform levelStartPosition = GameObject.Find(MagicStrings.LevelStartPosition).transform;
+        _player.position = levelStartPosition.position;
+        currentLevelSpawnPosition = levelStartPosition;
         _player.GetComponent<Animator>().SetBool(MagicStrings.PlayerRunning, false);
         
+    }
+
+    /// <summary>
+    /// Call this method when the player falls from platform and need to respawn.
+    /// </summary>
+    public void OnPlatformFall()
+    {
+        if (!_isPlayerAlive)  // Health is zero. No need to respawn.
+        {
+            LoadGameOverScene();
+            return;
+        }
+        _player.position = platformFallSpawnPosition.position;
     }
 
     public void OnPlayerHurt()
@@ -75,7 +114,6 @@ public class GameManager : Singleton<GameManager>
             playerAnimator.SetTrigger(MagicStrings.PlayerDeath);
 
             Instance.Timer.Add(SinkPlayer, 2f);
-
 
         }
     }

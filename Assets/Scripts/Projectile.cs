@@ -22,7 +22,6 @@ public class Projectile : MonoBehaviour
             if (health <= 0)
             {
                 GameManager.Instance.IsPlayerAlive = false;
-                GameManager.Instance.OnPlayerDeath();
             }
             Destroy(gameObject); // Destroy the projectile
         }

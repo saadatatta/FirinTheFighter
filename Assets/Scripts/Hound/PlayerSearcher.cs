@@ -6,7 +6,7 @@ public class PlayerSearcher : MonoBehaviour {
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private float yOffset;
 
-    private int range = 10;
+    [SerializeField]private int range = 10;
     
     public bool IsPlayerInRange { get; private set; }
 

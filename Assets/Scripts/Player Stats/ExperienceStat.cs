@@ -6,39 +6,26 @@ using System.Linq;
 [System.Serializable]
 public class ExperienceStat
 {
-    List<BaseStat> experienceStatsList;
+    int experienceStats;
     private int currentExperienceLevel;
 
     public ExperienceStat()
     {
-        experienceStatsList = new List<BaseStat>();
+        experienceStats = 0;
         currentExperienceLevel = 1;
     }
 
-    public int ListItemsCount
+    public void AddStat(int value)
     {
-        get { return experienceStatsList.Count; }
-    }
 
-    public void AddStat(BaseStat stat)
-    {
-        experienceStatsList.Add(stat);
+        experienceStats += value;
         PlayerStatTexts.Instance.ExperienceLevelValueText.text = DisplayExperienceStat();
     }
 
-    private int CalculateStats()
-    {
-        if (experienceStatsList.Count == 0)
-        {
-            return 0;
-        }
-
-        return experienceStatsList.Sum(x => x.StatValue);
-    }
-
+   
     public string DisplayExperienceStat()
     {
-        int statSum = CalculateStats();
+        int statSum = experienceStats;
         int levelMaxValue = ExperienceStatValues.FindLevelMaxValue(currentExperienceLevel);
 
         if (IsLevelUpgraded(statSum, levelMaxValue))

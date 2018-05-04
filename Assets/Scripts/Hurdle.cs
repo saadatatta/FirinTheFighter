@@ -15,11 +15,10 @@ public class Hurdle : MonoBehaviour {
                 damageTime = 0;
                 int health = collision.gameObject.GetComponent<Player>().PlayerHealth -= 5;
                 collision.gameObject.GetComponentInChildren<ParticleSystem>().Play();
-
+                SoundManager.Instance.PlayHurtSound(SoundManager.Instance.PlayerHurtClips);
                 if (health <= 0)
                 {
                     GameManager.Instance.IsPlayerAlive = false;
-                    GameManager.Instance.OnPlayerDeath();
                 }
             }
             
